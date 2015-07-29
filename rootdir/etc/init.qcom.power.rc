@@ -11,12 +11,12 @@ on boot
     write /sys/module/lpm_levels/parameters/sleep_disabled 0
 
     # HMP scheduler load tracking settings
-    write /proc/sys/kernel/sched_ravg_hist_size 3
+    write /proc/sys/kernel/sched_ravg_hist_size 5
 
     # HMP Task packing settings for 8916
-    write /proc/sys/kernel/sched_small_task 20
-    write /proc/sys/kernel/sched_mostly_idle_load 30
-    write /proc/sys/kernel/sched_mostly_idle_nr_run 3
+    write /proc/sys/kernel/sched_small_task 50
+    write /proc/sys/kernel/sched_mostly_idle_load 50
+    write /proc/sys/kernel/sched_mostly_idle_nr_run 10
 
     # disable thermal core_control to update interactive governor settings
     write /sys/module/msm_thermal/core_control/enabled 0
@@ -24,15 +24,22 @@ on boot
     # enable governor
     write /sys/devices/system/cpu/cpu0/online 1
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 800000
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "25000 1094400:50000"
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 90
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 30000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 200000
+    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "80000 998400:60000"
+    write /sys/devices/system/cpu/cpu0/sched_mostly_idle_freq 200000
+    write /sys/devices/system/cpu/cpufreq/interactive/max_freq_hysteresis 20000
+    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 99
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 130000
     write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 998400
     write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
     write /sys/devices/system/cpu/cpufreq/interactive/max_freq_hysteresis 50000
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "1 800000:85 998400:90 1094400:80"
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 50000
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "1 200000:85 200000:90 200000:80"
+    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 150000
+    write /sys/devices/system/cpu/cpufreq/interactive/use_sched_load 1
+    write /sys/devices/system/cpu/cpufreq/interactive/boost 3
+    write /sys/devices/system/cpu/cpufreq/interactive/use_sched_load 1
+    write /sys/devices/system/cpu/cpufreq/interactive/align_windows 1
+    write /sys/devices/system/cpu/cpufreq/interactive/timer_slack 180000
 
     # enable thermal core_control now
     write /sys/module/msm_thermal/core_control/enabled 1
